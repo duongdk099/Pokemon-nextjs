@@ -25,7 +25,18 @@ export default function PokemonCard({ pokemon }: PokemonCardProps) {
   const handleCardClick = (e: React.MouseEvent) => {
     if (comparisonMode) {
       e.preventDefault();
+      e.stopPropagation();
+      console.log('Card clicked in comparison mode, toggling:', id);
       toggleSelection(id);
+    }
+  };
+
+  const handleLinkClick = (e: React.MouseEvent) => {
+    if (comparisonMode) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('Link click prevented in comparison mode');
+      return false;
     }
   };
 
@@ -36,11 +47,13 @@ export default function PokemonCard({ pokemon }: PokemonCardProps) {
     <div 
       className={`${styles.pokemonCard} ${isCardSelected ? styles.selected : ''} ${comparisonMode && !canSelect ? styles.disabled : ''}`}
       onClick={handleCardClick}
+      style={{ pointerEvents: comparisonMode ? 'auto' : 'none' }}
     >
       <button 
         className={`${styles.favoriteBtn} ${isFavorite(id) ? styles.active : ''}`}
         onClick={handleFavoriteClick}
         aria-label={isFavorite(id) ? 'Remove from favorites' : 'Add to favorites'}
+        style={{ pointerEvents: 'auto' }}
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill={isFavorite(id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
           <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -51,7 +64,7 @@ export default function PokemonCard({ pokemon }: PokemonCardProps) {
           {selectedPokemon.indexOf(id) + 1}
         </div>
       )}
-      <Link href={`/pokemon/${id}`}>
+      <Link href={`/pokemon/${id}`} onClick={handleLinkClick} style={{ pointerEvents: comparisonMode ? 'none' : 'auto' }}>
         <div className={styles.cardContent}>
           <div className={styles.imgWrap}>
             {image ? (
