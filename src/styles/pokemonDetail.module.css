@@ -1,0 +1,371 @@
+/* Pokemon Detail Page Styles */
+
+.main {
+  padding: 32px 20px;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  color: #4a5568;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.backLink:hover {
+  transform: translateX(-4px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  color: #667eea;
+}
+
+.pokemonNav {
+  display: flex;
+  gap: 12px;
+}
+
+.navButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  color: white;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+}
+
+.navButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+}
+
+.errorCard {
+  background: rgba(254, 226, 226, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.errorCard h1 {
+  color: #991b1b;
+  margin-top: 0;
+}
+
+.errorDetails {
+  background: rgba(255, 255, 255, 0.5);
+  padding: 16px;
+  border-radius: 8px;
+  color: #7f1d1d;
+}
+
+.errorDetails pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 8px 0 0 0;
+  font-size: 0.875rem;
+}
+
+.detailCard {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.detailHeader {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+  align-items: start;
+}
+
+.imageSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imageWrapper {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.infoSection h1 {
+  font-size: 2.5rem;
+  margin: 0 0 8px 0;
+  text-transform: capitalize;
+  color: #2d3748;
+  background: none;
+  -webkit-text-fill-color: initial;
+}
+
+.studentId {
+  font-size: 1.25rem;
+  color: #718096;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.types {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.type {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.typeFire { background: #ff6b6b; color: white; }
+.typeWater { background: #4fc3f7; color: white; }
+.typeGrass { background: #66bb6a; color: white; }
+.typeElectric { background: #ffd54f; color: #2d3748; }
+.typePsychic { background: #ba68c8; color: white; }
+.typeIce { background: #81d4fa; color: #2d3748; }
+.typeDragon { background: #7e57c2; color: white; }
+.typeDark { background: #5d4037; color: white; }
+.typeFairy { background: #f48fb1; color: white; }
+.typeNormal { background: #bdbdbd; color: #2d3748; }
+.typeFighting { background: #ef5350; color: white; }
+.typeFlying { background: #90caf9; color: #2d3748; }
+.typePoison { background: #ab47bc; color: white; }
+.typeGround { background: #d4a373; color: white; }
+.typeRock { background: #a1887f; color: white; }
+.typeBug { background: #9ccc65; color: white; }
+.typeGhost { background: #7e57c2; color: white; }
+.typeSteel { background: #90a4ae; color: white; }
+
+.statsSection,
+.evolutionSection {
+  margin-top: 32px;
+}
+
+.statsSection h2,
+.evolutionSection h2 {
+  font-size: 1.5rem;
+  margin: 0 0 20px 0;
+  color: #2d3748;
+}
+
+.statsGrid {
+  display: grid;
+  gap: 16px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4a5568;
+  text-transform: capitalize;
+}
+
+.statBar {
+  position: relative;
+  background: #e2e8f0;
+  height: 32px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.statFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.5s ease;
+  border-radius: 16px;
+}
+
+.statValue {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 0.875rem;
+}
+
+.evolutionChain {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.evolutionLink {
+  text-decoration: none;
+}
+
+.evolutionCard {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  padding: 16px 24px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.evolutionCard:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+  border-color: #667eea;
+  transform: translateY(-2px);
+}
+
+.evolutionName {
+  font-weight: 600;
+  color: #2d3748;
+  text-transform: capitalize;
+  font-size: 1rem;
+}
+
+.evolutionId {
+  font-size: 0.75rem;
+  color: #718096;
+  margin-top: 4px;
+}
+
+.arrow {
+  color: #a0aec0;
+  flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .detailHeader {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .evolutionChain {
+    flex-direction: column;
+  }
+  
+  .arrow {
+    transform: rotate(90deg);
+  }
+}
+
+/* Dark mode */
+:global(.dark) .backLink {
+  background: rgba(45, 55, 72, 0.95);
+  color: #e2e8f0;
+}
+
+:global(.dark) .backLink:hover {
+  color: #90cdf4;
+}
+
+:global(.dark) .navButton {
+  background: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+  box-shadow: 0 2px 4px rgba(66, 153, 225, 0.3);
+}
+
+:global(.dark) .navButton:hover {
+  box-shadow: 0 6px 12px rgba(66, 153, 225, 0.4);
+}
+
+:global(.dark) .errorCard {
+  background: rgba(127, 29, 29, 0.95);
+}
+
+:global(.dark) .errorCard h1 {
+  color: #fecaca;
+}
+
+:global(.dark) .errorDetails {
+  background: rgba(45, 55, 72, 0.5);
+  color: #fca5a5;
+}
+
+:global(.dark) .detailCard {
+  background: rgba(45, 55, 72, 0.95);
+}
+
+:global(.dark) .infoSection h1,
+:global(.dark) .statsSection h2,
+:global(.dark) .evolutionSection h2 {
+  color: #f7fafc;
+}
+
+:global(.dark) .studentId {
+  color: #a0aec0;
+}
+
+:global(.dark) .imageWrapper {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+}
+
+:global(.dark) .statLabel {
+  color: #cbd5e0;
+}
+
+:global(.dark) .statBar {
+  background: #2d3748;
+}
+
+:global(.dark) .statValue {
+  color: #e2e8f0;
+}
+
+:global(.dark) .evolutionCard {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+}
+
+:global(.dark) .evolutionCard:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%);
+  border-color: #90cdf4;
+}
+
+:global(.dark) .evolutionName {
+  color: #f7fafc;
+}
+
+:global(.dark) .evolutionId {
+  color: #a0aec0;
+}
+
+:global(.dark) .arrow {
+  color: #4a5568;
+}

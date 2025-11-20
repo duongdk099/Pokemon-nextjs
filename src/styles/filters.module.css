@@ -1,0 +1,255 @@
+.filters { 
+  display: flex; 
+  gap: 16px; 
+  align-items: center; 
+  margin-bottom: 24px; 
+  flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+}
+
+.searchWrapper {
+  position: relative;
+  flex: 1;
+  min-width: 250px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a0aec0;
+  pointer-events: none;
+}
+
+.filters input { 
+  width: 100%;
+  padding: 12px 12px 12px 42px;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background: white;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.filters input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.filters input::placeholder {
+  color: #a0aec0;
+}
+
+.typesFilter { 
+  display: flex; 
+  gap: 12px; 
+  align-items: center;
+  flex-wrap: wrap;
+  flex: 2;
+}
+
+.filterLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4a5568;
+  white-space: nowrap;
+}
+
+.typesList { 
+  display: flex; 
+  gap: 8px; 
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.typeLabel { 
+  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #f7fafc;
+  border: 2px solid #e2e8f0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.typeLabel:hover {
+  background: #edf2f7;
+  border-color: #cbd5e0;
+}
+
+.typeLabel input {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.typeLabel input:checked + span {
+  font-weight: 600;
+}
+
+.typeLabel:has(input:checked) {
+  background: #667eea;
+  border-color: #667eea;
+  color: white;
+}
+
+.typesLoading { 
+  color: #4a5568;
+  display: inline-flex;
+  align-items: center;
+}
+
+.spinner { 
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.visuallyHidden { 
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes spin { 
+  to { transform: rotate(360deg); } 
+}
+
+.typesError { 
+  color: #e53e3e;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: #fff5f5;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.typesError button { 
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: #e53e3e;
+  color: white;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.typesError button:hover {
+  background: #c53030;
+}
+
+.limitWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(247, 250, 252, 0.8);
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.limitLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4a5568;
+  white-space: nowrap;
+}
+
+.filters select { 
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background: white;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filters select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Dark mode */
+:global(.dark) .filters {
+  background: rgba(45, 55, 72, 0.95);
+}
+
+:global(.dark) .filters input,
+:global(.dark) .filters select {
+  background: rgba(26, 32, 44, 0.8);
+  color: #e2e8f0;
+  border-color: #4a5568;
+}
+
+:global(.dark) .filters input:focus,
+:global(.dark) .filters select:focus {
+  border-color: #90cdf4;
+  box-shadow: 0 0 0 3px rgba(144, 205, 244, 0.1);
+}
+
+:global(.dark) .searchIcon {
+  color: #718096;
+}
+
+:global(.dark) .filterLabel,
+:global(.dark) .limitLabel {
+  color: #e2e8f0;
+}
+
+:global(.dark) .limitWrapper {
+  background: rgba(45, 55, 72, 0.8);
+  border-color: #4a5568;
+}
+
+:global(.dark) .typeLabel {
+  background: #2d3748;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
+:global(.dark) .typeLabel:hover {
+  background: #374151;
+  border-color: #6b7280;
+}
+
+:global(.dark) .typeLabel:has(input:checked) {
+  background: #90cdf4;
+  border-color: #90cdf4;
+  color: #1a202c;
+}
+
+:global(.dark) .typesLoading {
+  color: #e2e8f0;
+}
+
+:global(.dark) .spinner {
+  border: 2px solid rgba(144, 205, 244, 0.2);
+  border-top-color: #90cdf4;
+}

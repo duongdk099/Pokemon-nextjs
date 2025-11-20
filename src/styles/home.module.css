@@ -1,0 +1,167 @@
+.main {
+  padding: 32px 20px;
+  min-height: 100vh;
+}
+
+.pageHeader {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.pageHeader h1 {
+  margin: 0 0 8px 0;
+  font-size: 3rem;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  font-weight: 300;
+}
+
+.errorBanner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: rgba(254, 226, 226, 0.95);
+  backdrop-filter: blur(10px);
+  color: #991b1b;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+}
+
+.pokemonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.loadingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.skeletonCard {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 16px;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.skeletonImage {
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(90deg, #e2e8f0 25%, #f7fafc 50%, #e2e8f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.skeletonText {
+  width: 100%;
+  height: 16px;
+  background: linear-gradient(90deg, #e2e8f0 25%, #f7fafc 50%, #e2e8f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.skeletonText.short {
+  width: 60%;
+  margin: 0 auto;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.loadingMore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.spinnerLarge {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loadingMore p {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.endMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  margin-top: 32px;
+}
+
+.endMessage svg {
+  width: 48px;
+  height: 48px;
+}
+
+.endMessage p {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+/* Dark mode */
+:global(.dark) .subtitle {
+  color: rgba(226, 232, 240, 0.8);
+}
+
+:global(.dark) .errorBanner {
+  background: rgba(127, 29, 29, 0.95);
+  color: #fecaca;
+}
+
+:global(.dark) .skeletonCard {
+  background: rgba(45, 55, 72, 0.95);
+}
+
+:global(.dark) .skeletonImage,
+:global(.dark) .skeletonText {
+  background: linear-gradient(90deg, #2d3748 25%, #4a5568 50%, #2d3748 75%);
+  background-size: 200% 100%;
+}
+
+:global(.dark) .spinnerLarge {
+  border-color: rgba(144, 205, 244, 0.2);
+  border-top-color: #90cdf4;
+}
+
+:global(.dark) .endMessage {
+  background: rgba(45, 55, 72, 0.3);
+}

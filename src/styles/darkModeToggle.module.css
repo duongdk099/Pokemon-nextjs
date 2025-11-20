@@ -1,0 +1,66 @@
+.darkModeToggle {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.darkModeToggle:hover {
+  transform: scale(1.1) rotate(15deg);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.darkModeToggle:active {
+  transform: scale(0.95) rotate(15deg);
+}
+
+.toggleInner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  transition: all 0.3s ease;
+}
+
+.sun {
+  color: #f59e0b;
+  animation: rotate 20s linear infinite;
+}
+
+.moon {
+  color: #6366f1;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+:global(.dark) .darkModeToggle {
+  background: rgba(45, 55, 72, 0.95);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+:global(.dark) .darkModeToggle:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4), 0 4px 6px rgba(0, 0, 0, 0.3);
+}
