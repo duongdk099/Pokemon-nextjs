@@ -4,6 +4,8 @@ import api from '../../lib/api';
 import Link from 'next/link';
 import Image from 'next/image';
 import DarkModeToggle from '../../components/DarkModeToggle';
+import StatsRadarChart from '../../components/StatsRadarChart';
+import { useFavorites } from '../_app';
 import { Pokemon } from '../../types';
 import styles from '../../styles/pokemonDetail.module.css';
 
@@ -13,6 +15,8 @@ interface PokemonDetailProps {
 }
 
 export default function PokemonDetail({ pokemon, error }: PokemonDetailProps) {
+  const { isFavorite, toggleFavorite } = useFavorites();
+  
   if (!pokemon) {
     return (
       <main className={styles.main}>
@@ -92,7 +96,18 @@ export default function PokemonDetail({ pokemon, error }: PokemonDetailProps) {
             </div>
             
             <div className={styles.infoSection}>
-              <h1>{pokemon.name}</h1>
+              <div className={styles.headerWithFavorite}>
+                <h1>{pokemon.name}</h1>
+                <button 
+                  className={`${styles.favoriteBtn} ${isFavorite(currentId) ? styles.active : ''}`}
+                  onClick={() => toggleFavorite(currentId)}
+                  aria-label={isFavorite(currentId) ? 'Remove from favorites' : 'Add to favorites'}
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill={isFavorite(currentId) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  </svg>
+                </button>
+              </div>
               <div className={styles.studentId}>#{String(pokemon.pokedexId || pokemon.id).padStart(3, '0')}</div>
               
               {pokemon.types && pokemon.types.length > 0 && (
@@ -110,16 +125,21 @@ export default function PokemonDetail({ pokemon, error }: PokemonDetailProps) {
           {pokemon.stats && Object.keys(pokemon.stats).length > 0 && (
             <div className={styles.statsSection}>
               <h2>📊 Grades</h2>
-              <div className={styles.statsGrid}>
-                {Object.entries(pokemon.stats).map(([k, v]) => (
-                  <div key={k} className={styles.statItem}>
-                    <div className={styles.statLabel}>{k.replace(/_/g, ' ')}</div>
-                    <div className={styles.statBar}>
-                      <div className={styles.statFill} style={{ width: `${Math.min((v || 0) / 2, 100)}%` }}></div>
-                      <span className={styles.statValue}>{v}</span>
+              <div className={styles.statsContainer}>
+                <div className={styles.radarWrapper}>
+                  <StatsRadarChart stats={pokemon.stats} size={320} />
+                </div>
+                <div className={styles.statsGrid}>
+                  {Object.entries(pokemon.stats).map(([k, v]) => (
+                    <div key={k} className={styles.statItem}>
+                      <div className={styles.statLabel}>{k.replace(/_/g, ' ')}</div>
+                      <div className={styles.statBar}>
+                        <div className={styles.statFill} style={{ width: `${Math.min((v || 0) / 2, 100)}%` }}></div>
+                        <span className={styles.statValue}>{v}</span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           )}

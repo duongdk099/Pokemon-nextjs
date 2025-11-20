@@ -20,6 +20,108 @@
   font-weight: 300;
 }
 
+.actionBar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4a5568;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.actionBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background: white;
+}
+
+.actionBtn.active {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+.actionBtn svg {
+  transition: transform 0.2s ease;
+}
+
+.actionBtn:hover svg {
+  transform: scale(1.1);
+}
+
+.clearBtn {
+  padding: 12px 20px;
+  background: #e53e3e;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.clearBtn:hover {
+  background: #c53030;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(229, 62, 62, 0.3);
+}
+
+.comparisonHint {
+  background: rgba(102, 126, 234, 0.1);
+  border: 2px solid rgba(102, 126, 234, 0.3);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.emptyState svg {
+  margin-bottom: 24px;
+  opacity: 0.6;
+}
+
+.emptyState h3 {
+  font-size: 1.5rem;
+  margin: 0 0 12px;
+}
+
+.emptyState p {
+  font-size: 1rem;
+  opacity: 0.8;
+  max-width: 400px;
+}
+
 .errorBanner {
   display: flex;
   align-items: center;
@@ -140,6 +242,39 @@
 /* Dark mode */
 :global(.dark) .subtitle {
   color: rgba(226, 232, 240, 0.8);
+}
+
+:global(.dark) .actionBtn {
+  background: rgba(45, 55, 72, 0.95);
+  color: #e2e8f0;
+}
+
+:global(.dark) .actionBtn:hover {
+  background: rgba(45, 55, 72, 1);
+}
+
+:global(.dark) .actionBtn.active {
+  background: #90cdf4;
+  color: #1a202c;
+  border-color: #90cdf4;
+}
+
+:global(.dark) .clearBtn {
+  background: #fc8181;
+}
+
+:global(.dark) .clearBtn:hover {
+  background: #f56565;
+}
+
+:global(.dark) .comparisonHint {
+  background: rgba(144, 205, 244, 0.1);
+  border-color: rgba(144, 205, 244, 0.3);
+  color: rgba(226, 232, 240, 0.95);
+}
+
+:global(.dark) .emptyState {
+  color: rgba(226, 232, 240, 0.9);
 }
 
 :global(.dark) .errorBanner {

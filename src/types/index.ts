@@ -44,3 +44,18 @@ export interface DarkModeContextValue {
   darkMode: boolean | undefined;
   toggleDarkMode: () => void;
 }
+
+export interface FavoritesContextValue {
+  favorites: number[];
+  toggleFavorite: (pokedexId: number) => void;
+  isFavorite: (pokedexId: number) => boolean;
+}
+
+export interface ComparisonContextValue {
+  comparisonMode: boolean;
+  selectedPokemon: number[];
+  toggleComparisonMode: () => void;
+  toggleSelection: (pokedexId: number) => void;
+  clearSelection: () => void;
+  isSelected: (pokedexId: number) => boolean;
+}

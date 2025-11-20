@@ -1,0 +1,84 @@
+.radarContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.radarSvg {
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+.gridPolygon {
+  fill: none;
+  stroke: #cbd5e0;
+  stroke-width: 1;
+}
+
+.axisLine {
+  stroke: #cbd5e0;
+  stroke-width: 1;
+  opacity: 0.5;
+}
+
+.statPolygon {
+  fill: none;
+  stroke: #667eea;
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+.statPolygonFill {
+  fill: rgba(102, 126, 234, 0.2);
+  stroke: none;
+}
+
+.dataPoint {
+  fill: #667eea;
+  stroke: white;
+  stroke-width: 2;
+}
+
+.labelText {
+  fill: #4a5568;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.valueText {
+  fill: #667eea;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Dark mode */
+:global(.dark) .gridPolygon {
+  stroke: #4a5568;
+}
+
+:global(.dark) .axisLine {
+  stroke: #4a5568;
+}
+
+:global(.dark) .statPolygon {
+  stroke: #90cdf4;
+}
+
+:global(.dark) .statPolygonFill {
+  fill: rgba(144, 205, 244, 0.2);
+}
+
+:global(.dark) .dataPoint {
+  fill: #90cdf4;
+  stroke: #1a202c;
+}
+
+:global(.dark) .labelText {
+  fill: #e2e8f0;
+}
+
+:global(.dark) .valueText {
+  fill: #90cdf4;
+}

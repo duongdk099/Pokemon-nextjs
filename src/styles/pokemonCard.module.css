@@ -17,6 +17,76 @@
   box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.1);
 }
 
+.pokemonCard.selected {
+  border: 3px solid #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2), 0 8px 16px rgba(102, 126, 234, 0.3);
+  transform: scale(1.05);
+}
+
+.pokemonCard.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pokemonCard.disabled:hover {
+  transform: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.favoriteBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #cbd5e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.favoriteBtn:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 1);
+}
+
+.favoriteBtn.active {
+  color: #ef5350;
+  animation: heartbeat 0.3s ease;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.2); }
+  50% { transform: scale(0.95); }
+  75% { transform: scale(1.1); }
+}
+
+.selectionBadge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 10;
+  background: #667eea;
+  color: white;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.875rem;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.5);
+}
+
 .cardContent {
   padding: 16px;
 }
@@ -113,6 +183,29 @@
 
 :global(.dark) .pokemonCard:hover {
   box-shadow: 0 20px 25px rgba(0, 0, 0, 0.4), 0 10px 10px rgba(0, 0, 0, 0.3);
+}
+
+:global(.dark) .pokemonCard.selected {
+  border: 3px solid #90cdf4;
+  box-shadow: 0 0 0 4px rgba(144, 205, 244, 0.2), 0 8px 16px rgba(144, 205, 244, 0.3);
+}
+
+:global(.dark) .favoriteBtn {
+  background: rgba(45, 55, 72, 0.9);
+  color: #718096;
+}
+
+:global(.dark) .favoriteBtn:hover {
+  background: rgba(45, 55, 72, 1);
+}
+
+:global(.dark) .favoriteBtn.active {
+  color: #fc8181;
+}
+
+:global(.dark) .selectionBadge {
+  background: #90cdf4;
+  color: #1a202c;
 }
 
 :global(.dark) .imgWrap {
