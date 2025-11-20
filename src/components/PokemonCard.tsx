@@ -7,9 +7,10 @@ import { useComparison } from '../pages/_app';
 
 interface PokemonCardProps {
   pokemon: Pokemon;
+  viewMode?: 'grid' | 'list';
 }
 
-export default function PokemonCard({ pokemon }: PokemonCardProps) {
+export default function PokemonCard({ pokemon, viewMode = 'grid' }: PokemonCardProps) {
   if (!pokemon) return null;
   const id = pokemon.pokedexId || pokemon.id;
   const image = pokemon.image || pokemon.sprite;
@@ -42,6 +43,69 @@ export default function PokemonCard({ pokemon }: PokemonCardProps) {
 
   const isCardSelected = isSelected(id);
   const canSelect = selectedPokemon.length < 3 || isCardSelected;
+
+  if (viewMode === 'list') {
+    return (
+      <div 
+        className={`${styles.pokemonCardList} ${isCardSelected ? styles.selected : ''} ${comparisonMode && !canSelect ? styles.disabled : ''}`}
+        onClick={handleCardClick}
+        style={{ pointerEvents: comparisonMode ? 'auto' : 'none' }}
+      >
+        <button 
+          className={`${styles.favoriteBtn} ${isFavorite(id) ? styles.active : ''}`}
+          onClick={handleFavoriteClick}
+          aria-label={isFavorite(id) ? 'Remove from favorites' : 'Add to favorites'}
+          style={{ pointerEvents: 'auto' }}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill={isFavorite(id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </button>
+        {comparisonMode && isCardSelected && (
+          <div className={styles.selectionBadge}>
+            {selectedPokemon.indexOf(id) + 1}
+          </div>
+        )}
+        <Link href={`/pokemon/${id}`} onClick={handleLinkClick} style={{ pointerEvents: comparisonMode ? 'none' : 'auto' }}>
+          <div className={styles.listContent}>
+            <div className={styles.listImage}>
+              {image ? (
+                <Image 
+                  src={image} 
+                  alt={pokemon.name} 
+                  width={80}
+                  height={80}
+                  style={{ objectFit: 'contain' }}
+                  loading="lazy"
+                />
+              ) : (
+                <div className={styles.noImage}>No Image</div>
+              )}
+            </div>
+            <div className={styles.listInfo}>
+              <div className={styles.listHeader}>
+                <h3 className={styles.name}>{pokemon.name}</h3>
+                <span className={styles.listId}>#{String(id).padStart(3, '0')}</span>
+              </div>
+              <div className={styles.types}>
+                {pokemon.types?.map((type) => (
+                  <span key={type.name} className={styles.type}>{type.name}</span>
+                ))}
+              </div>
+              {pokemon.stats && (
+                <div className={styles.listStats}>
+                  <div className={styles.statChip}>HP: {pokemon.stats.HP}</div>
+                  <div className={styles.statChip}>ATK: {pokemon.stats.attack}</div>
+                  <div className={styles.statChip}>DEF: {pokemon.stats.defense}</div>
+                  <div className={styles.statChip}>SPD: {pokemon.stats.speed}</div>
+                </div>
+              )}
+            </div>
+          </div>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div 

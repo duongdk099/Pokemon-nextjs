@@ -1,23 +1,67 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import api from '../lib/api';
 import PokemonCard from '../components/PokemonCard';
 import Filters from '../components/Filters';
 import DarkModeToggle from '../components/DarkModeToggle';
 import ComparisonTool from '../components/ComparisonTool';
+import Leaderboards from '../components/Leaderboards';
 import { useComparison, useFavorites } from './_app';
+import { Pokemon } from '../types';
 import styles from '../styles/home.module.css';
+
+type ViewMode = 'grid' | 'list';
+type SortOption = 'id' | 'name' | 'hp' | 'attack' | 'defense' | 'speed';
 
 export default function Home() {
   const [limit, setLimit] = useState(50);
   const [search, setSearch] = useState('');
   const [typeFilter, setTypeFilter] = useState<number[] | null>(null);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>('grid');
+  const [sortBy, setSortBy] = useState<SortOption>('id');
+  const [showLeaderboards, setShowLeaderboards] = useState(false);
 
   const { comparisonMode, toggleComparisonMode, selectedPokemon, clearSelection } = useComparison();
   const { favorites } = useFavorites();
 
   const sentinelRef = useRef<HTMLDivElement>(null);
+
+  const handleExportData = () => {
+    const dataToExport = showFavoritesOnly 
+      ? sortedPokemons.filter(p => favorites.includes(p.pokedexId || p.id))
+      : sortedPokemons;
+
+    const exportData = dataToExport.map(p => ({
+      id: p.pokedexId || p.id,
+      name: p.name,
+      types: p.types?.map(t => t.name).join(', ') || 'N/A',
+      hp: p.stats?.HP || 'N/A',
+      attack: p.stats?.attack || 'N/A',
+      defense: p.stats?.defense || 'N/A',
+      specialAttack: p.stats?.special_attack || 'N/A',
+      specialDefense: p.stats?.special_defense || 'N/A',
+      speed: p.stats?.speed || 'N/A',
+    }));
+
+    // CSV format
+    const csvHeaders = 'ID,Name,Types,HP,Attack,Defense,Sp. Attack,Sp. Defense,Speed\n';
+    const csvRows = exportData.map(p => 
+      `${p.id},"${p.name}","${p.types}",${p.hp},${p.attack},${p.defense},${p.specialAttack},${p.specialDefense},${p.speed}`
+    ).join('\n');
+    const csvContent = csvHeaders + csvRows;
+
+    // Create and download
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `pokemon-data-${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const {
     data,
@@ -51,6 +95,28 @@ export default function Home() {
     ? pokemons.filter(p => favorites.includes(p.pokedexId || p.id))
     : pokemons;
 
+  // Sort pokemons based on sortBy
+  const sortedPokemons = useMemo(() => {
+    const pokemonsToSort = [...displayedPokemons];
+    
+    switch (sortBy) {
+      case 'id':
+        return pokemonsToSort.sort((a, b) => (a.pokedexId || a.id) - (b.pokedexId || b.id));
+      case 'name':
+        return pokemonsToSort.sort((a, b) => a.name.localeCompare(b.name));
+      case 'hp':
+        return pokemonsToSort.sort((a, b) => (b.stats?.HP || 0) - (a.stats?.HP || 0));
+      case 'attack':
+        return pokemonsToSort.sort((a, b) => (b.stats?.attack || 0) - (a.stats?.attack || 0));
+      case 'defense':
+        return pokemonsToSort.sort((a, b) => (b.stats?.defense || 0) - (a.stats?.defense || 0));
+      case 'speed':
+        return pokemonsToSort.sort((a, b) => (b.stats?.speed || 0) - (a.stats?.speed || 0));
+      default:
+        return pokemonsToSort;
+    }
+  }, [displayedPokemons, sortBy]);
+
   useEffect(() => {
     const el = sentinelRef.current;
     if (!el) return;
@@ -77,35 +143,109 @@ export default function Home() {
       <Filters onSearch={setSearch} onTypes={setTypeFilter} onLimit={setLimit} initialLimit={limit} />
 
       <div className={styles.actionBar}>
-        <button 
-          className={`${styles.actionBtn} ${comparisonMode ? styles.active : ''}`}
-          onClick={toggleComparisonMode}
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M9 11l3 3L22 4"/>
-            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
-          </svg>
-          {comparisonMode ? `Compare Mode (${selectedPokemon.length}/3)` : 'Compare Students'}
-        </button>
-        
-        <button 
-          className={`${styles.actionBtn} ${showFavoritesOnly ? styles.active : ''}`}
-          onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill={showFavoritesOnly ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-          </svg>
-          {showFavoritesOnly ? `Favorites (${favorites.length})` : 'Show Favorites'}
-        </button>
-
-        {comparisonMode && selectedPokemon.length > 0 && (
+        <div className={styles.actionGroup}>
           <button 
-            className={styles.clearBtn}
-            onClick={clearSelection}
+            className={`${styles.actionBtn} ${comparisonMode ? styles.active : ''}`}
+            onClick={toggleComparisonMode}
           >
-            Clear Selection
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+            </svg>
+            {comparisonMode ? `Compare Mode (${selectedPokemon.length}/3)` : 'Compare Students'}
           </button>
-        )}
+          
+          <button 
+            className={`${styles.actionBtn} ${showFavoritesOnly ? styles.active : ''}`}
+            onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill={showFavoritesOnly ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+            {showFavoritesOnly ? `Favorites (${favorites.length})` : 'Show Favorites'}
+          </button>
+
+          {comparisonMode && selectedPokemon.length > 0 && (
+            <button 
+              className={styles.clearBtn}
+              onClick={clearSelection}
+            >
+              Clear Selection
+            </button>
+          )}
+        </div>
+
+        <div className={styles.actionGroup}>
+          <div className={styles.viewToggle}>
+            <button 
+              className={`${styles.viewBtn} ${viewMode === 'grid' ? styles.active : ''}`}
+              onClick={() => setViewMode('grid')}
+              title="Grid View"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+              </svg>
+            </button>
+            <button 
+              className={`${styles.viewBtn} ${viewMode === 'list' ? styles.active : ''}`}
+              onClick={() => setViewMode('list')}
+              title="List View"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="8" y1="6" x2="21" y2="6"/>
+                <line x1="8" y1="12" x2="21" y2="12"/>
+                <line x1="8" y1="18" x2="21" y2="18"/>
+                <line x1="3" y1="6" x2="3.01" y2="6"/>
+                <line x1="3" y1="12" x2="3.01" y2="12"/>
+                <line x1="3" y1="18" x2="3.01" y2="18"/>
+              </svg>
+            </button>
+          </div>
+
+          <select 
+            className={styles.sortSelect}
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as SortOption)}
+          >
+            <option value="id">Sort by ID</option>
+            <option value="name">Sort by Name</option>
+            <option value="hp">Sort by HP</option>
+            <option value="attack">Sort by Attack</option>
+            <option value="defense">Sort by Defense</option>
+            <option value="speed">Sort by Speed</option>
+          </select>
+
+          <button 
+            className={styles.actionBtn}
+            onClick={() => setShowLeaderboards(true)}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+              <path d="M4 22h16"/>
+              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+              <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+            </svg>
+            Leaderboards
+          </button>
+
+          <button 
+            className={styles.actionBtn}
+            onClick={handleExportData}
+            disabled={sortedPokemons.length === 0}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Export CSV
+          </button>
+        </div>
       </div>
 
       {comparisonMode && (
@@ -136,9 +276,9 @@ export default function Home() {
           ))}
         </div>
       ) : (
-        <div className={styles.pokemonGrid}>
-          {displayedPokemons.map((p) => (
-            <PokemonCard key={p.pokedexId || p.id} pokemon={p} />
+        <div className={viewMode === 'grid' ? styles.pokemonGrid : styles.pokemonList}>
+          {sortedPokemons.map((p) => (
+            <PokemonCard key={p.pokedexId || p.id} pokemon={p} viewMode={viewMode} />
           ))}
         </div>
       )}
@@ -174,6 +314,9 @@ export default function Home() {
           <p>You've reached the end! ({pokemons.length} students total)</p>
         </div>
       )}
+
+      {selectedPokemon.length > 0 && <ComparisonTool />}
+      {showLeaderboards && <Leaderboards onClose={() => setShowLeaderboards(false)} />}
     </main>
   );
 }
