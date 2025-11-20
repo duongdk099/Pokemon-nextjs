@@ -315,8 +315,8 @@ export default function Home() {
         </div>
       )}
 
-      {selectedPokemon.length > 0 && <ComparisonTool />}
       {showLeaderboards && <Leaderboards onClose={() => setShowLeaderboards(false)} />}
+      {selectedPokemon.length >= 2 && <ComparisonTool />}
     </main>
   );
 }

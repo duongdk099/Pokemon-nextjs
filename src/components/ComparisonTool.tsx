@@ -13,7 +13,8 @@ export default function ComparisonTool() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (selectedPokemon.length === 0) {
+    // Only fetch data when we have at least 2 Pokemon to compare
+    if (selectedPokemon.length < 2) {
       setPokemons([]);
       return;
     }
@@ -29,7 +30,8 @@ export default function ComparisonTool() {
     });
   }, [selectedPokemon]);
 
-  if (selectedPokemon.length === 0) {
+  // Only show modal when at least 2 Pokemon are selected
+  if (selectedPokemon.length < 2) {
     return null;
   }
 
